@@ -21,20 +21,16 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Android SDK
+            - name: Setup Android SDK
         shell: bash
         run: |
           SDKMANAGER=$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | head -n 1)
-
           if [ -z "$SDKMANAGER" ]; then
-            echo "ERROR: sdkmanager not found"
+            echo "sdkmanager not found"
             exit 1
           fi
-
-          echo "Found SDK Manager: $SDKMANAGER"
-
+          set +o pipefail
           yes | "$SDKMANAGER" --licenses
-
           "$SDKMANAGER" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Build APK
